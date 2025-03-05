@@ -14,22 +14,22 @@ const (
 
 type Service struct {
 	logger *zap.Logger
-	Parser
+	parser Parser
 }
 
 type Parser interface {
 	Parse(query string) (Query, error)
 }
 
-func NewService(logger *zap.Logger, parserSrvc ParserSrvc) *Service {
+func NewService(logger *zap.Logger, parser Parser) *Service {
 	return &Service{
 		logger: logger,
-		Parser: NewParserSrvc(),
+		parser: parser,
 	}
 }
 
 func (s *Service) HandleQuery(query string) (Query, error) {
-	parsedQuery, err := s.Parse(query)
+	parsedQuery, err := s.parser.Parse(query)
 	if err != nil {
 		s.logger.Error("err parsing query", zap.String("query", query))
 		return Query{}, fmt.Errorf(errBadQuery, query)
