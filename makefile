@@ -1,0 +1,3 @@
+test_unit:
+	go clean -testcache && go test -mod=mod -v -race -run Unit ./...  -coverprofile=coverage.out ./...
+	go tool cover -html=coverage.out

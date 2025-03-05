@@ -1,19 +1,12 @@
 package main
 
-import (
-	"log"
-
-	"github.com/EnrikeM/kvBase/internal/storage"
-	"go.uber.org/zap"
-)
-
 func main() {
-	logger, _ := zap.NewProduction()
+	// logger, _ := zap.NewProduction()
 
-	strg := storage.NewService(logger)
+	// strg := storage.NewService(logger)
 
-	log.Println(strg.Update("SET weather_2_pm cold_moscow_weather"))
-	log.Println(strg.Update("GET weather_2_pm"))
-	log.Println(strg.Update("DEL weather_2_pm"))
-	log.Println(strg.Update("GET weather_2_pm"))
+	// log.Println(strg.Update("SET weather_2_pm cold_moscow_weather"))
+	// log.Println(strg.Update("GET weather_2_pm"))
+	// log.Println(strg.Update("DEL weather_2_pm"))
+	// log.Println(strg.Update("GET weather_2_pm"))
 }

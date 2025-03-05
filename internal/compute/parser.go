@@ -18,21 +18,23 @@ var (
 	DEL Method = "DEL"
 )
 
-var (
-	errEmptyQuery = fmt.Errorf("empty query")
+const (
+	errEmptyQuery = ("empty query %s")
+	errBadMethod  = ("method %s unsupported")
+	errWrongNum   = "wrong number of arguments for method %s, expected %d, got %d"
 )
 
-type Parser struct {
+type ParserSrvc struct {
 }
 
-func NewParser() *Parser {
-	return &Parser{}
+func NewParserSrvc() *ParserSrvc {
+	return &ParserSrvc{}
 }
 
-func (p *Parser) Parse(query string) (Query, error) {
+func (p *ParserSrvc) Parse(query string) (Query, error) {
 	querySplit := strings.Split(query, " ")
 	if len(querySplit) == 0 {
-		return Query{}, errEmptyQuery
+		return Query{}, fmt.Errorf(errEmptyQuery, query)
 	}
 
 	switch Method(querySplit[0]) {
@@ -44,11 +46,11 @@ func (p *Parser) Parse(query string) (Query, error) {
 		return handleDEL(querySplit)
 	}
 
-	return Query{}, fmt.Errorf("command %s is unsupported", querySplit[0])
+	return Query{}, fmt.Errorf(errBadMethod, querySplit[0])
 }
 func handleSET(querySplit []string) (Query, error) {
 	if len(querySplit) != 3 {
-		return Query{}, fmt.Errorf("invalid set command")
+		return Query{}, fmt.Errorf(errWrongNum, SET, 3, len(querySplit))
 	}
 
 	return Query{
@@ -59,7 +61,7 @@ func handleSET(querySplit []string) (Query, error) {
 
 func handleGET(querySplit []string) (Query, error) {
 	if len(querySplit) != 2 {
-		return Query{}, fmt.Errorf("invalid get command")
+		return Query{}, fmt.Errorf(errWrongNum, GET, 2, len(querySplit))
 	}
 
 	return Query{
@@ -70,11 +72,11 @@ func handleGET(querySplit []string) (Query, error) {
 
 func handleDEL(querySplit []string) (Query, error) {
 	if len(querySplit) != 2 {
-		return Query{}, fmt.Errorf("invalid del command")
+		return Query{}, fmt.Errorf(errWrongNum, DEL, 2, len(querySplit))
 	}
 
 	return Query{
-		Method: SET,
+		Method: DEL,
 		Args:   []string{querySplit[1]},
 	}, nil
 }
