@@ -7,7 +7,7 @@ package compute_test
 import (
 	reflect "reflect"
 
-	compute "github.com/EnrikeM/kvBase/internal/compute"
+	domain "github.com/EnrikeM/kvBase/internal/domain"
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -35,10 +35,10 @@ func (m *MockParser) EXPECT() *MockParserMockRecorder {
 }
 
 // Parse mocks base method.
-func (m *MockParser) Parse(query string) (compute.Query, error) {
+func (m *MockParser) Parse(query string) (domain.Query, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Parse", query)
-	ret0, _ := ret[0].(compute.Query)
+	ret0, _ := ret[0].(domain.Query)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

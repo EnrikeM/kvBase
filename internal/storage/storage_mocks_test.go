@@ -7,7 +7,7 @@ package storage_test
 import (
 	reflect "reflect"
 
-	compute "github.com/EnrikeM/kvBase/internal/compute"
+	domain "github.com/EnrikeM/kvBase/internal/domain"
 	gomock "github.com/golang/mock/gomock"
 )
 
@@ -35,10 +35,10 @@ func (m *MockCompute) EXPECT() *MockComputeMockRecorder {
 }
 
 // HandleQuery mocks base method.
-func (m *MockCompute) HandleQuery(query string) (compute.Query, error) {
+func (m *MockCompute) HandleQuery(query string) (domain.Query, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "HandleQuery", query)
-	ret0, _ := ret[0].(compute.Query)
+	ret0, _ := ret[0].(domain.Query)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

@@ -3,7 +3,7 @@ package storage
 import (
 	"fmt"
 
-	"github.com/EnrikeM/kvBase/internal/compute"
+	"github.com/EnrikeM/kvBase/internal/domain"
 	"go.uber.org/zap"
 )
 
@@ -24,7 +24,7 @@ func NewService(engine Engine, compute Compute, logger *zap.Logger) *Service {
 }
 
 type Compute interface {
-	HandleQuery(query string) (compute.Query, error)
+	HandleQuery(query string) (domain.Query, error)
 }
 
 type Engine interface {
@@ -40,11 +40,11 @@ func (s *Service) Update(query string) (string, error) {
 		return "", err
 	}
 	switch compQuery.Method {
-	case compute.SET:
+	case domain.SET:
 		return s.engine.Set(compQuery.Args)
-	case compute.GET:
+	case domain.GET:
 		return s.engine.Get(compQuery.Args)
-	case compute.DEL:
+	case domain.DEL:
 		return s.engine.Del(compQuery.Args)
 	}
 

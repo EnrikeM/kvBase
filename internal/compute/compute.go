@@ -3,6 +3,7 @@ package compute
 import (
 	"fmt"
 
+	"github.com/EnrikeM/kvBase/internal/domain"
 	"go.uber.org/zap"
 )
 
@@ -18,7 +19,7 @@ type Service struct {
 }
 
 type Parser interface {
-	Parse(query string) (Query, error)
+	Parse(query string) (domain.Query, error)
 }
 
 func NewService(logger *zap.Logger, parser Parser) *Service {
@@ -28,11 +29,11 @@ func NewService(logger *zap.Logger, parser Parser) *Service {
 	}
 }
 
-func (s *Service) HandleQuery(query string) (Query, error) {
+func (s *Service) HandleQuery(query string) (domain.Query, error) {
 	parsedQuery, err := s.parser.Parse(query)
 	if err != nil {
 		s.logger.Error("err parsing query", zap.String("query", query))
-		return Query{}, fmt.Errorf(errBadQuery, query)
+		return domain.Query{}, fmt.Errorf(errBadQuery, query)
 	}
 
 	return parsedQuery, nil
